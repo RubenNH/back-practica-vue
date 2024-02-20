@@ -8,6 +8,10 @@ import examen.examen.Service.GenresService;
 import examen.examen.Service.MoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import examen.examen.Controller.dtos.MoviesSearchRequestDto;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -20,6 +24,10 @@ public class MoviesController {
 
     @Autowired
     GenresService genresService;
+
+    //use dto on ./dtos/MoviesSearchRequestDto.java
+
+
 
     @PostMapping("/movies")
     public Movies addMovie(@RequestBody Movies movie) {
@@ -57,5 +65,13 @@ public class MoviesController {
         moviesService.saveMovie(movie);
         return "Movie with ID " + id + " updated";
     }
+
+
+    //use search     public List<Movies> searchMovies(String name, int year1, int year2, String genre, String publishDate1, String publishDate2){
+    @PostMapping("/search")
+    public List<Movies> searchMovies(@RequestBody MoviesSearchRequestDto request) {
+        return moviesService.searchMovies(request.getName(), request.getYear1(), request.getYear2(), request.getDirector(), request.getGenre(), request.getPublishDate());
+    }
+
 
 }
